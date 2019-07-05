@@ -30,9 +30,11 @@
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh" success-text="加载成功">
     <div class="container with-bottom-nav" style="min-height: 667px; height: 667px;">
       <div class="custom-search js-search-bar">
-        <form>
+        <form @submit="toSearch($event)">
           <input type="search" class="custom-search-input" autocomplete="off" name="keyword" value=""
-            placeholder="搜索更赞的商品">
+            placeholder="搜索更赞的商品"
+            v-model="keyword"
+            >
           <span class="icon-custom-search"></span>
         </form>
         <button class="custom-search-type-selection-btn">商品</button>
@@ -87,7 +89,7 @@
                         </div>
                         <div class="detail">
                           <div class="title">{{item.name}}</div>
-                          <div class="price">{{item.price}}</div>
+                          <div class="price">{{item.price|formatPrize}}</div>
                           <div class="recommend">
                             <span>推荐值:</span>
                             <span>{{item.recommend}}</span>
@@ -145,13 +147,17 @@
                 <li class="category-item js-category-item" 
                 v-for="item in subList.brandList"
                 :data-item-id="item.id" 
-                :data-item-name="item.name">
+                :data-item-name="item.name"
+                @click="toSearch($event,item.name,item.id)"
+               >
                   <img
                     :src="item.img"
-                    :alt="item.name" class="category-img">
+                    :alt="item.name" class="category-img"
+                   >
                   <span class="category-item-name">
                     {{item.name}} </span>
                 </li>
+                <div style="clear: both"></div>
               </ul>
 
               <!-- 热门分类 -->
@@ -160,7 +166,8 @@
                 <li class="category-item js-category-item" 
                 :data-item-id="item.id" 
                 :data-item-name="item.name"
-                v-for="item in subList.categoryList">
+                v-for="item in subList.categoryList"
+                @click="toSearch($event,item.name,item.id)">
                   <img
                     :src="item.img"
                     :alt="item.name" class="category-img">

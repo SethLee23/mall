@@ -8,7 +8,6 @@ export default {
   name: "backToTop",
   mounted() {
     window.onscroll = () => {
-      console.log('show')
       this.showButton();
     };
   },
@@ -22,10 +21,8 @@ export default {
         document.body.scrollTop > 50 ||
         document.documentElement.scrollTop > 50
       ) {
-        console.log('block')
         document.getElementById("myBtn").style.display = "block";
       } else {
-        console.log('hide')
         document.getElementById("myBtn").style.display = "none";
       }
     }

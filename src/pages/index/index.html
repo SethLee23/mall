@@ -58,9 +58,11 @@
             <span class="lineblock-font">最热商品推荐</span>
           </div>
         </div>
-        <div class="hot-goods js-waterfull-wrap" data-src="">
-          <ul class="js-list js-lazy" data-src="" v-infinite-scroll="getLists" infinite-scroll-disabled="loading"
-            infinite-scroll-distance="10">
+        <div class="hot-goods js-waterfull-wrap" data-src=""
+        v-infinite-scroll="getLists" infinite-scroll-disabled="loading"
+        infinite-scroll-distance="10">
+          <ul class="js-list js-lazy" data-src=""
+          >
             <li v-for="item in lists">
               <div class="goods-item">
                 <a @click="goodDetail(item.id)">

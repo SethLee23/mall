@@ -23,7 +23,7 @@ new Vue({
     topLists: null,
     loading: false,
     allLoaded: false,
-    imgAndUrl: null
+    imgAndUrl: null,
   },
   mounted() {
     // this.createSwiper()

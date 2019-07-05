@@ -29,6 +29,8 @@ new Vue({
     isLoading: false,
     allLoaded: false,
     subId: '',
+    keyword: '',
+    value: ''
   },
   created() {
     this.getTopList()
@@ -64,23 +66,34 @@ new Vue({
         this.hotGoods = r.hotGoods
         this.hotShops = r.hotShops
         this.hotKeywords = r.hotKeywords
-        // this.allLoaded = true
-        console.log('ok')
         this.isLoading = false;
       })
     },
     changeView(item, index) {
       this.curIndex = index
       if (this.curIndex === 0) {
-        this.getRank()
+        // this.getRank()
       } else {
         this.getSublist(item.id)
       }
-
+    },
+    toSearch(e, name, id) {
+      e.preventDefault()
+      if (name, id) {
+        location.href = `search.html?keyword=${name}&id=${id}`
+      } else {
+        location.href = `search.html?keyword=${this.keyword}&id=${this.subId||null}`
+      }
     }
+
   },
   components: {
     's-footer': footer,
   },
+  filters: {
+    formatPrize(prize) {
+      return '￥' + prize.toFixed(2)
+    }
+  }
   // mixins:[mixin]
 })
