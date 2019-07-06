@@ -23,42 +23,25 @@
 <body class=" " style="min-height: 667px;">
   <div id="app1">
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh" success-text="加载成功">
-      <div class="container with-top-search" style="min-height: 667px;">
+      <div class="container with-top-search" style="min-height: 667px;"
+      v-infinite-scroll="loadmore" infinite-scroll-disabled="busy"
+      infinite-scroll-distance="10">
         <div class="custom-search js-search-bar">
-          <form>
-            <input type="search" class="custom-search-input" autocomplete="off" name="keyword" value="水果"
-              placeholder="搜索更赞的商品" style="padding-left: 66px;" :value.sync="keyword">
+          <back-to-top></back-to-top>
+          <form @submit=toSearch($event)>
+            <input type="search" class="custom-search-input" autocomplete="off" name="keyword" placeholder="搜索更赞的商品"
+              style="padding-left: 66px;" v-model="keyword">
             <span class="icon-custom-search"></span>
           </form>
           <button class="custom-search-type-selection-btn custom-search-type-selection-btn-focus">商品</button>
           <span class="cancel">取消</span>
-          <!-- <div class="search-type-dropdown-menu" style="display: none;">
-        <span class="search-type-dropdown-menu-indicator">
-            <i></i>
-        </span>
-        <div class="drop-menu-content">
-          <div class="search-type-goods">
-            <i class="icon-goods"></i>
-            <span>商品</span>
-          </div>
-          <div class="search-type-dropdown-menu-divider"></div>
-          <div class="search-type-shop">
-            <i class="icon-shop"></i>
-            <span>店铺</span>
-          </div>
-        </div>
-      </div> -->
         </div>
         <div class="search-content" style="display: none;"></div>
         <div class="content">
-          <div class="search-wrap js-waterfull-wrap"
-         >
-            <ul class="js-list"
-           >
-              <li class="goods-item" v-for="item in searchList"
-              v-infinite-scroll="getLists"
-              infinite-scroll-disabled="busy"
-              infinite-scroll-distance="0">
+            
+          <div class="search-wrap js-waterfull-wrap">
+            <ul class="js-list">
+              <li class="goods-item" v-for="item in searchList">
                 <a href="">
                   <div class="thumb">
                     <img :src="item.img">
@@ -73,13 +56,16 @@
                   </div>
                 </a>
               </li>
+              <div style="clear: both"></div>
             </ul>
+            <div class="loading-more"  v-show="!allLoaded"><span></span></div>
             <div class="list-finished" v-if="allLoaded">已经没有更多了</div>
           </div>
         </div>
-        <!-- <back-to-top></back-to-top> -->
+       
         <!-- <s-footer></s-footer> -->
-        <!-- <div class="go-to-top" style="display: block; transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);"></div> -->
+        <!-- <div class="go-to-top" 
+        ></div> -->
       </div>
     </van-pull-refresh>
   </div>
