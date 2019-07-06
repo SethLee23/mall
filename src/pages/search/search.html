@@ -22,11 +22,13 @@
 
 <body class=" " style="min-height: 667px;">
   <div id="app1">
+    <!-- 上拉刷新组件 -->
     <van-pull-refresh v-model="isLoading" @refresh="onRefresh" success-text="加载成功">
-      <div class="container with-top-search" style="min-height: 667px;"
-      v-infinite-scroll="loadmore" infinite-scroll-disabled="busy"
-      infinite-scroll-distance="10">
+      <!-- 下拉无限滚动组件 -->
+      <div class="container with-top-search" style="min-height: 667px;" v-infinite-scroll="loadmore"
+        infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <div class="custom-search js-search-bar">
+         <!-- 返回顶部组件 -->
           <back-to-top></back-to-top>
           <form @submit=toSearch($event)>
             <input type="search" class="custom-search-input" autocomplete="off" name="keyword" placeholder="搜索更赞的商品"
@@ -38,11 +40,11 @@
         </div>
         <div class="search-content" style="display: none;"></div>
         <div class="content">
-            
+
           <div class="search-wrap js-waterfull-wrap">
             <ul class="js-list">
               <li class="goods-item" v-for="item in searchList">
-                <a href="">
+                <a :href="'goods.html?id='+item.id">
                   <div class="thumb">
                     <img :src="item.img">
                     <i :class="{'sell-out':item.isOut}"></i>
@@ -58,11 +60,11 @@
               </li>
               <div style="clear: both"></div>
             </ul>
-            <div class="loading-more"  v-show="!allLoaded"><span></span></div>
+            <div class="loading-more" v-show="!allLoaded"><span></span></div>
             <div class="list-finished" v-if="allLoaded">已经没有更多了</div>
           </div>
         </div>
-       
+
         <!-- <s-footer></s-footer> -->
         <!-- <div class="go-to-top" 
         ></div> -->

@@ -37,7 +37,7 @@ export default {
   /* 默认是隐藏的，这样在第一屏才不显示 */
   position: fixed; /* 位置是固定的 */
   bottom: 10%; /* 显示在页面底部 */
-  right: 10%; /* 显示在页面的右边 */
+  right: 5%; /* 显示在页面的右边 */
   z-index: 99; /* 确保不被其他功能覆盖 */
   border: 1px solid #5cb85c; /* 显示边框 */
   outline: none; /* 不显示外框 */
