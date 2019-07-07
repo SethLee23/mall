@@ -2,7 +2,7 @@ import 'css/common.css'
 import './category.css'
 import Vue from 'vue'
 import axios from 'axios'
-import footer from '../../components/Footer'
+import footer from '../../components/footer'
 // import mixin from 'js/mixin'
 import url from 'js/api.js'
 

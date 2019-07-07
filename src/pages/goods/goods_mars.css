@@ -342,6 +342,9 @@ a#global-cart .icon-img {
 a#global-cart.hide {
   display: none
 }
+/* .hide {
+  display: none
+} */
 
 a#global-cart.new .icon-img {
   background-position: 0 0

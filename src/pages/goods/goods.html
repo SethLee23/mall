@@ -22,6 +22,7 @@
 
 <body class=" body-fixed-bottom default-theme">
   <div id="goodsContainer" v-cloak v-if="detailsLists">
+    <back-to-top></back-to-top>
     <div class="container wap-goods internal-purchase" style="min-height: 617px;">
       <div class="content no-sidebar">
         <div class="content-body">
@@ -37,11 +38,11 @@
             <h2 class="title">{{detailsLists.title}}</h2>
             <div class="goods-price ">
               <div class="current-price">
-                <span>¥</span><i class="js-goods-price price">{{detailsLists.price}}</i>
+                <span>¥</span><i class="js-goods-price price">{{detailsLists.price|formatPrize}}</i>
               </div>
               <span class="btn btn-blue btn-retail hide js-retail-btn">门店有售</span>
               <div class="original-price">
-                {{detailsLists.originalPrice}} </div>
+                {{detailsLists.originalPrice|formatPrize}} </div>
             </div>
             <hr class="with-margin-l">
             <div class="stock-detail">
@@ -62,7 +63,7 @@
           </div>
 
           <!-- selectDetail -->
-          <div class="sku-detail adv-opts">
+          <div class="sku-detail adv-opts" @click="chooseType(0)">
             <div class="sku-detail-inner adv-opts-inner">
               <dl class="sku-group select-sku js-select-sku">
                 <dt><span class="js-sku-label">选择</span>：</dt>
@@ -100,22 +101,19 @@
 
           <!-- tabs -->
 
-          <!-- hide？ -->
+          <!-- 商品详情，本店成交 -->
           <a class="js-package-buy-block"></a>
-
           <div class="js-detail-container" style="margin-top: 10px;">
             <div class="js-tabber-container goods-detail">
               <div class="js-tabber tabber tabber-n2 clearfix orange">
-                <button data-type="goods">
-                  <!-- :class="{active:index===curIndex}" -->
-                  商品详情 </button>
-                <button data-type="sales">
-                  本店成交 </button>
+                <button v-for="(item,index) in navConfig" :data-type="item.type" @click="changeNav(index)"
+                  :class="{active:index===curIndex}">
+                  <!--  -->
+                  {{item.content}} </button>
               </div>
               <div class="js-tabber-content">
-                
-                <!-- 成交 -->
-                <div class="js-part hide" data-type="sales">
+                <!-- 成交详情 -->
+                <div class="js-part" data-type="sales" v-show="curIndex===1">
                   <div class="js-traderecord-list block-list-traderecord">
                     <div class="list-header">
                       <span class="col-1">买家</span>
@@ -123,105 +121,64 @@
                       <span class="col-3 center">数量</span>
                     </div>
                     <div class="js-list b-list block block-list">
+                      <div class="block-item" v-for="list in dealLists">
+                        <span class="col-1 c-gray-darker">{{list.buyer}}</span>
+                        <span class="col-2 c-gray-dark center">{{list.time}}</span>
+                        <span class="col-3 c-gray-darker center">{{list.num}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="js-part js-goods-detail goods-tabber-c" data-type="goods">
+                <!-- 商品详情 -->
+                <div class="js-part js-goods-detail goods-tabber-c" data-type="goods" v-show="curIndex===0">
                   <div class="js-components-container components-container">
                     <div class="custom-richtext js-lazy-container js-view-image-list">
-                      <p><img data-origin-width="720" data-origin-height="713"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FhU7lMPonHtR8qP4zP4aIKRVkObr.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FhU7lMPonHtR8qP4zP4aIKRVkObr.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="494"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FvYqk840X0ubXwFE6Nh0unihqIKm.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FvYqk840X0ubXwFE6Nh0unihqIKm.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="916"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FvIfNYewmohf3b3V2yA_hr6whV-A.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FvIfNYewmohf3b3V2yA_hr6whV-A.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="656"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FlYJPxbAgmkKjWtvLxwqjUMJHUG3.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FlYJPxbAgmkKjWtvLxwqjUMJHUG3.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="513"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FmpaiyW8GbpV2I2QKwm7stoRQkOJ.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FmpaiyW8GbpV2I2QKwm7stoRQkOJ.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="691"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/Fs5rqsKzMe7qIHhuQAqyM1lcjmfB.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/Fs5rqsKzMe7qIHhuQAqyM1lcjmfB.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="531"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/Foor6_Ipc-Lo9eOX_H_a8g4kWPRW.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/Foor6_Ipc-Lo9eOX_H_a8g4kWPRW.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="932"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FuuNBFbA_vMYmI6FFbNOemmDX9bd.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FuuNBFbA_vMYmI6FFbNOemmDX9bd.jpg!730x0.jpg"><img
-                          data-origin-width="720" data-origin-height="707"
-                          class="js-richtext-img-lazy js-view-image-item"
-                          src="https://img.yzcdn.cn/upload_files/2017/05/15/FotgIfOUlMtvhtH0dhRLlmpKJLv7.jpg?imageView2/2/w/730/h/0/q/75/format/webp"
-                          data-src="https://img.yzcdn.cn/upload_files/2017/05/15/FotgIfOUlMtvhtH0dhRLlmpKJLv7.jpg!730x0.jpg">
-                      </p>
-                    </div>
-                    <div class="price-intro">
-                      <h4>划线价格说明<i class="icon-arrow"></i></h4>
-                      <p>划线价格：划线的价格可能是商品的专柜价、吊牌价、正品零售价、指导价、曾经展示过的销售价等，仅供您参考。</p>
-                      <p>未划线价格：未划线的价格是商品的销售标价，具体的成交价格可能因会员使用优惠券、积分等发生变化，最终以订单结算价格为准。 </p>
-                      <p>*此说明仅当出现价格比较时有效。若这件商品针对划线价格进行了特殊说明，以特殊说明为准。</p>
+                      <p v-html="detailsLists.description"></p>
                     </div>
                   </div>
+                </div>
+                <div class="price-intro" @click="chooseType(4)">
+                  <h4>划线价格说明<i class="icon-arrow"></i></h4>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- footer -->
           <div class="js-bottom-opts js-footer-auto-ele stick-bottom">
             <div class="stick-bottom-icons">
               <a href="javascript:;" class="js-yz-im icons icons-im ">店主</a>
-              <a href="https://h5.youzan.com/v2/showcase/homepage?kdt_id=16546132"
-                class="js-call-im icons icons-home">店铺</a>
+              <a href="javascript:;" class="js-call-im icons icons-home">店铺</a>
               <a href="javascript:;" class="js-yz-zan icons icons-zan ">收藏</a>
             </div>
             <div class="stick-bottom-btns">
-              <!-- 尚未开售 -->
+              <!-- 尚未开售 ？？？-->
               <div class="btn-cart">
-                <a href="https://h5.youzan.com/v2/showcase/goods?alias=1y7n2wi58q1as&amp;source=yzapp&amp;f_platform=yzapp&amp;reft=1499937523785&amp;spm=mars20003"
-                  class="js-add-cart">加入购物车</a>
+                <a href="javscript:;" class="js-add-cart" @click="chooseType(1)">加入购物车</a>
               </div>
               <div class="btn-buy">
-                <a href="javascript:;" class="js-buy-it">立即购买</a>
+                <a href="javascript:;" class="js-buy-it" @click="chooseType(2)">立即购买</a>
               </div>
             </div>
           </div>
-          <!-- <div id="right-icon" class="js-right-icon hide">
-          <div class="js-right-icon-container right-icon-container clearfix">
-            <a id="global-cart" href="https://h5.youzan.com/v2/trade/cart?kdt_id=16546132" class="icon hide" style="">
-              <p class="icon-img"></p>
-              <p class="icon-txt">购物车</p>
-            </a>
-            <a class="js-show-more-btn icon show-more-btn hide"></a>
-          </div>
-        </div> -->
-          <div id="right-icon" class="js-right-icon ">
+          <!-- 购物车图标 -->
+          <div id="right-icon" class="js-right-icon " v-show="cart">
             <div class="js-right-icon-container right-icon-container clearfix">
-              <a id="global-cart" href="https://h5.youzan.com/v2/trade/cart?kdt_id=16546132" class="icon new s0"
-                style="">
+              <a id="global-cart" href="cart.html" class="icon new s0" style="">
                 <p class="icon-img"></p>
                 <p class="icon-txt">购物车</p>
               </a>
               <a class="js-show-more-btn icon show-more-btn "></a>
             </div>
           </div>
+          <!-- 商品区域 recommend -->
+          <!-- 展现类型判断 -->
           <div class="js-recommend">
             <p class="center font-size-14 c-black" style="padding: 5px 0;margin-top: 10px;">更多精选商品</p>
             <div class="js-recommend-goods-list">
               <ul class="js-goods-list sc-goods-list pic clearfix size-1 " data-size="1" data-showtype="card"
                 style="visibility: visible;">
-                <!-- 商品区域 -->
-                <!-- 展现类型判断 -->
+
                 <li class="js-goods-card goods-card small-pic card ">
                   <a href="https://h5.youzan.com/v2/goods/2ov83y79gkn38" class="js-goods link clearfix" target="_blank"
                     data-goods-id="343086880" title="【28号陆续发货】寻找田野|青海有机鲜枸杞 营养价值高安全无农残 吃水果一样吃枸杞">
@@ -438,13 +395,13 @@
         <div class="footer">
           <div class="copyright">
             <div class="ft-links">
-              <a href="https://h5.youzan.com/v2/showcase/homepage?kdt_id=16546132" target="_blank">店铺主页</a>
-              <a href="https://h5.youzan.com/v2/showcase/usercenter?kdt_id=16546132" target="_blank">会员中心</a>
+              <a href="javascript:;" target="_blank">店铺主页</a>
+              <a href="javascript:;" target="_blank">会员中心</a>
               <a href="javascript:;" class="js-open-follow">关注我们</a>
-              <a href="https://h5.youzan.com/v2/showcase/cert" target="_blank">店铺信息</a>
+              <a href="javascript:;" target="_blank">店铺信息</a>
               <!-- 第三方app隐藏topbar时，需要在底部显示购物记录入口 -->
             </div>
-            <div class="ft-copyright "
+            <div class="ft-copyright"
               style="background-image: url(https://img.yzcdn.cn/upload_files/2017/06/16/FgtL3QzprXTGrVPaolozNT08Xs2K.png);">
             </div>
           </div>
@@ -496,93 +453,111 @@
           class="tag tag-clear js-tag-clear c-gray-darker hide" href="javascript:;">清除历史搜索</a>
       </div>
     </div>
+
     <!-- 蒙层 -->
     <div id="yFzBKP9GDL"
-      style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; transition: none 0.2s ease; opacity: 1; display: none;">
+      style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; transition: none 0.2s ease; opacity: 1;"
+      v-show="showPopout" @click="hide">
     </div>
-<!-- 规格确认弹窗 popout -->
-    <div id="QfEqtDbeK9" class="sku-layout sku-box-shadow popup"
-      style="overflow: hidden; position: absolute; z-index: 1000; background: white; bottom: 0px; left: 0px; right: 0px; visibility: visible; transform: translate3d(0px, 0px, 0px); transition: all 300ms ease; opacity: 1; display: block;">
-      <div class="sku-layout-title name-card sku-name-card">
-        <div class="thumb"><img class="js-goods-thumb goods-thumb"
-            src="https://img.yzcdn.cn/upload_files/2017/07/12/FkSvYz8FLLD9-t0smXO43hF6ov7S.jpg?imageView2/2/w/100/h/100/q/75/format/webp?imageView2/2/w/100/h/100/q/75/format/webp"
-            alt=""></div>
-        <div class="detail goods-base-info clearfix">
-          <p class="title c-black ellipsis">寻找田野|最正宗的上海南汇8424 得奖最多奥运会指定西瓜1只/箱 9-11斤</p>
-          <div class="goods-price clearfix">
-            <div class="current-price pull-left c-black">
-              <span class="price-name pull-left font-size-14 c-orange">¥</span><i
-                class="js-goods-price price font-size-16 vertical-middle c-orange">98.00</i>
-            </div>
-            <div class="original-price vertical-middle font-size-14 line-through">108</div>
+    <transition name="fade">
+
+      <!-- 规格确认弹窗 popout -->
+      <div id="QfEqtDbeK9" class="sku-layout sku-box-shadow popup"
+        style="overflow: hidden; position: fixed; bottom:0;z-index: 1000; background: white; bottom: 0px; left: 0px; right: 0px;"
+        v-if="showPopout">
+        <div class="sku-layout-title name-card sku-name-card">
+          <div v-show="type==4" style="font-size: 16px; padding: 20px 4px;">
+            <p>划线价格：划线的价格可能是商品的专柜价、吊牌价、正品零售价、指导价、曾经展示过的销售价等，仅供您参考。</p>
+            <p>未划线价格：未划线的价格是商品的销售标价，具体的成交价格可能因会员使用优惠券、积分等发生变化，最终以订单结算价格为准。 </p>
+            <p>*此说明仅当出现价格比较时有效。若这件商品针对划线价格进行了特殊说明，以特殊说明为准。</p>
           </div>
-        </div>
-        <div class="js-cancel sku-cancel">
-          <div class="cancel-img"></div>
-        </div>
-      </div>
-      <div class="sku-detail adv-opts hotel-checkin-select" style="border: none; margin: 0; display: none;">
-        <div class="sku-detail-inner adv-opts-inner-addons">
-          <dl class="sku-group select-sku js-select-checkin-date">
-            <dt>时间：</dt>
-            <dd class="js-checkin-date-value">选择入住时间</dd>
-          </dl>
-        </div>
-      </div>
-      <div class="adv-opts layout-content" style="max-height: 554px;">
-        <div class="goods-models js-sku-views block block-list border-top-0">
-          <dl class="clearfix block-item sku-list-container">
-            <dt class="model-title sku-sel-title">
-              <label>净含量：</label>
-            </dt>
-            <dd>
-              <ul class="model-list sku-sel-list">
-                <li class="tag sku-tag pull-left ellipsis active">4500g-5000g</li>
-              </ul>
-            </dd>
-          </dl>
-          <dl class="clearfix block-item">
-            <dt class="sku-num pull-left">
-              <label>购买数量：</label>
-            </dt>
-            <dd class="sku-quantity-contaienr">
-              <dl class="clearfix">
-                <div class="quantity">
-                  <button class="minus disabled" type="button" disabled="true"></button>
-                  <input type="text" class="txt" pattern="[0-9]*" value="1">
-                  <button class="plus" type="button"></button>
-                  <div class="response-area response-area-minus"></div>
-                  <div class="response-area response-area-plus"></div>
+          <div v-show="type!=4">
+            <div class="thumb"><img class="js-goods-thumb goods-thumb"
+                src="https://img.yzcdn.cn/upload_files/2017/07/12/FkSvYz8FLLD9-t0smXO43hF6ov7S.jpg?imageView2/2/w/100/h/100/q/75/format/webp?imageView2/2/w/100/h/100/q/75/format/webp"
+                alt=""></div>
+            <div class="detail goods-base-info clearfix">
+              <p class="title c-black ellipsis">{{detailsLists.title}}</p>
+              <div class="goods-price clearfix">
+                <div class="current-price pull-left c-black">
+                  <span class="price-name pull-left font-size-14 c-orange">¥</span><i
+                    class="js-goods-price price font-size-16 vertical-middle c-orange">{{detailsLists.price|formatPrize}}</i>
                 </div>
-              </dl>
-            </dd>
-            <dt class="other-info">
-              <div class="stock">剩余450件
+                <div class="original-price vertical-middle font-size-14 line-through">{{detailsLists.originalPrice|formatPrize}}
+                </div>
               </div>
-            </dt>
-          </dl>
-          <div class="block-item block-item-messages" style="display: none;">
-          </div>
-        </div>
-        <!-- <div class="bottom-padding"></div> -->
-        <div class="confirm-action content-foot clearfix">
-          <!-- 加入购物车 -->
-          <div class="big-btn-1-1" style="display: none;">
-            <a href="javascript:;" class="js-confirm-it big-btn red-btn main-btn">加入购物车</a>
-          </div>
-          <!-- 立即购买 -->
-          <div class="big-btn-1-1">
-            <a href="javascript:;" class="js-confirm-it big-btn red-btn main-btn">下一步</a>
-          </div>
-          <!-- 选择规格 -->
-          <div class="big-btn-2-1" style="display: none;">
-            <a href="javascript:;" class="js-mutiBtn-confirm cart big-btn orange-btn vice-btn">加入购物车</a>
-            <a href="javascript:;" class="js-mutiBtn-confirm confirm big-btn red-btn main-btn">立即购买</a>
+            </div>
+            <div class="js-cancel sku-cancel" @click="hide">
+              <div class="cancel-img"></div>
+            </div>
+
+            <div class="sku-detail adv-opts hotel-checkin-select" style="border: none; margin: 0; display: none;">
+              <div class="sku-detail-inner adv-opts-inner-addons">
+                <dl class="sku-group select-sku js-select-checkin-date">
+                  <dt>时间：</dt>
+                  <dd class="js-checkin-date-value">选择入住时间</dd>
+                </dl>
+              </div>
+            </div>
+            <div class="adv-opts layout-content" style="max-height: 554px;">
+              <div class="goods-models js-sku-views block block-list border-top-0">
+                <dl class="clearfix block-item sku-list-container">
+                  <dt class="model-title sku-sel-title">
+                    <label>净含量：</label>
+                  </dt>
+                  <dd>
+                    <ul class="model-list sku-sel-list">
+                      <li class="tag sku-tag pull-left ellipsis active">4500g-5000g</li>
+                    </ul>
+                  </dd>
+                </dl>
+                <dl class="clearfix block-item">
+                  <dt class="sku-num pull-left">
+                    <label>购买数量：</label>
+                  </dt>
+                  <dd class="sku-quantity-contaienr">
+                    <dl class="clearfix">
+                      <div class="quantity">
+                        <button class="minus" type="button" :class="{disabled:itemNumber==1}"></button>
+                        <input type="text" class="txt" pattern="[0-9]*" v-model="itemNumber">
+                        <button class="plus" type="button"></button>
+                        <div class="response-area response-area-minus" @click="changeItem(-1)"></div>
+                        <div class="response-area response-area-plus" @click="changeItem(+1)"></div>
+                      </div>
+                    </dl>
+                  </dd>
+                  <dt class="other-info">
+                    <div class="stock">剩余{{detailsLists.remain}}件
+                    </div>
+                  </dt>
+                </dl>
+                <div class="block-item block-item-messages" style="display: none;">
+                </div>
+              </div>
+            </div>
+            <!-- <div class="bottom-padding"></div> -->
+            <div class="confirm-action content-foot clearfix">
+
+              <!-- 加入购物车 -->
+              <div class="big-btn-1-1" v-show="type==1">
+                <a href="javascript:;" class="js-confirm-it big-btn red-btn main-btn" @click="addToCart">加入购物车</a>
+              </div>
+              <!-- 立即购买 -->
+              <div class="big-btn-1-1" v-show="type==2">
+                <a href="javascript:;" class="js-confirm-it big-btn red-btn main-btn">下一步</a>
+              </div>
+              <!-- 选择规格 -->
+              <div class="big-btn-2-1" v-show="type==0">
+                <a href="javascript:;" class="js-mutiBtn-confirm cart big-btn orange-btn vice-btn"
+                  @click="addToCart">加入购物车</a>
+                <a href="javascript:;" class="js-mutiBtn-confirm confirm big-btn red-btn main-btn">立即购买</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="motify" style="display: none;">
+
+    </transition>
+    <div class="motify" v-show="showToast">
       <div class="motify-inner">已成功添加到购物车</div>
     </div>
   </div>
