@@ -17,9 +17,12 @@ new Vue({
     // editingMsg: '编辑',
   },
   mounted() {
-    this.getCartList()
+    this.getCartList() 
   },
   computed: {
+    removeAllChecked(){
+      return false
+    },
     allChecked: {
       get() {
         if (this.cartList && this.cartList.length) {
@@ -54,6 +57,15 @@ new Vue({
     }
   },
   methods: {
+    removeShop(shop, shopIndex) {
+      console.log("removeShop")
+    },
+    removeItem(shop, good, index) {
+      console.log("removeItem")
+    },
+    removeCheckAll() {
+      console.log("removeAll")
+    },
     reduce(good) {
       if (good.number <= 1) return
       axios.post(url.cartReduce, {
