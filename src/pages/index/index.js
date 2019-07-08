@@ -9,7 +9,7 @@ import {
 } from 'mint-ui';
 
 import swiper from '../../components/swiper'
-import Footer from '../../components/Footer'
+import footer from '../../components/footer'
 import BackToTop from '../../components/backToTop'
 Vue.use(InfiniteScroll);
 Vue.config.productionTip = false
@@ -32,7 +32,7 @@ new Vue({
   },
   components: {
     swiper,
-    's-footer':Footer,
+    's-footer':footer,
     'back-to-top': BackToTop
   },
   methods: {

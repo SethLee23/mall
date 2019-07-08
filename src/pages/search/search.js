@@ -6,7 +6,7 @@ import {
   InfiniteScroll
 } from 'mint-ui';
 
-  import Footer from '../../components/Footer'
+  import footer from '../../components/footer'
 import BackToTop from '../../components/backToTop'
 Vue.use(InfiniteScroll);
 
@@ -92,6 +92,6 @@ new Vue({
   },
   components: {
     'back-to-top': BackToTop,
-    's-footer': Footer
+    's-footer': footer
   }
 })
