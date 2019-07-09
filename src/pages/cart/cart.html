@@ -31,30 +31,33 @@
               <div class="header">
                 <!-- 店铺 checked -->
                 <div class="select-group js-select-group">
-                  
-                  <span class="check" @click="checkShop(shop,shopIndex)" :class="{checked:shop.checked}" v-show="!editing" ></span>
-                  <span class="check" @click="removeShop(shop,shopIndex)" :class="{checked:shop.removeChecked}" v-show="editing"></span>
-                
+
+                  <span class="check" @click="checkShop(shop,shopIndex)" :class="{checked:shop.checked}"
+                    v-show="!editing"></span>
+                  <span class="check" @click="removeShop(shop,shopIndex)" :class="{checked:shop.removeChecked}"
+                    v-show="editing"></span>
+
                 </div>
                 <a class="shop-title"><i class="custom-store-img">店铺：</i>{{shop.shopTitle}}</a>
                 <a href="javascript:;" data-type="cart" class="j-edit-list pull-right c-blue font-size-12 edit-list"
-                  @click="edit(shop,shopIndex)"
-                  >
-                 {{shop.editingMsg}}
+                  @click="edit(shop,shopIndex)">
+                  {{shop.editingMsg}}
                 </a>
               </div>
               <div>
                 <ul class="js-list block block-list block-list-cart border-0">
                   <!--  editing -->
-                  <li class="block-item block-item-cart" v-for="(good,index) in shop.goodsList" 
-                  :class="{editing:shop.editing}">
+                  <li class="block-item block-item-cart" v-for="(good,goodIndex) in shop.goodsList"
+                    :class="{editing:shop.editing}">
                     <div>
                       <div class="check-container">
 
                         <!-- 商品 checked -->
-                        <span class="check" @click="checkItem(shop,good,index)" :class="{checked:good.checked}"  v-show="!editing"></span>
-                        <span class="check" @click="removeItem(shop,good,index)" :class="{checked:good.removeChecked}" v-show="editing"></span>
-                      
+                        <span class="check" @click="checkItem(shop,good,goodIndex)" :class="{checked:good.checked}"
+                          v-show="!editing"></span>
+                        <span class="check" @click="removeItem(shop,good,goodIndex)" :class="{checked:good.removeChecked}"
+                          v-show="editing"></span>
+
                       </div>
                       <div class="name-card clearfix">
                         <a href="https://h5.youzan.com/v2/showcase/goods?alias=2oivacpjh2ex0"
@@ -78,8 +81,7 @@
                           <div class="num" v-show="shop.editing">
                             <div class="quantity">
                               <button type="button" class="minus" :class="{disabled:good.number===1}"></button>
-                              <input type="text" pattern="[0-9]*" class="txt" 
-                              v-model="good.number">
+                              <input type="text" pattern="[0-9]*" class="txt" v-model="good.number">
                               <button type="button" class="plus"></button>
                               <div class="response-area response-area-minus" @click="reduce(good)"></div>
                               <div class="response-area response-area-plus" @click="add(good)"></div>
@@ -90,7 +92,7 @@
                         </div>
                         <div class="error-box"></div>
                       </div>
-                      <div class="delete-btn" v-show="shop.editing"><span>删除</span></div>
+                      <div class="delete-btn" v-show="shop.editing" @click="deleteGoods(shop,shopIndex,good,goodIndex)"><span>删除</span></div>
                     </div>
                   </li>
                 </ul>
@@ -150,7 +152,8 @@
               <div class="select-all">
                 <!-- 全选 checked -->
                 <span class="check" :class="{checked:allChecked}" @click="checkAll" v-show="!editing"></span>
-                <span class="check" :class="{checked:removeAllChecked}" @click="removeCheckAll" v-show="editing"></span> 全选
+                <span class="check" :class="{checked:removeAllChecked}" @click="removeCheckAll" v-show="editing"></span>
+                全选
               </div>
               <!-- 显示状态 -->
               <div class="total-price" v-show="!editing">
@@ -159,26 +162,47 @@
                 </span>
                 <p class="c-gray-dark">不含运费</p>
               </div>
-              <button href="javascript:;" class="js-go-pay btn btn-orange-dark font-size-14" v-show="!editing">
+              <button href="javascript:;" class="js-go-pay btn btn-orange-dark font-size-14" :disabled="totalPrice==0"
+                v-show="!editing">
                 结算
               </button>
               <!-- 编辑状态 -->
-              <button href="javascript:;" :disabled="!removeLists.length" class="j-delete-goods btn font-size-14 btn-red"
-                v-show="editing">删除
+              <button href="javascript:;" :disabled="!removeLists.length"
+                class="j-delete-goods btn font-size-14 btn-red" v-show="editing"
+                @click="mRemove">删除
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="footer" style="min-height: 86px;">
-    <div class="copyright">
-      <div class="ft-copyright "
-        style="background-image: url(https://img.yzcdn.cn/upload_files/2016/11/15/147918630760182374.png);">
-        <a class="yz-logo" href="https://www.youzan.com/?from_source=support_logo">有赞提供技术支持</a> </div>
+    <div id="0SuefKPV4p" v-show="removePopout" style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000;  opacity: 1;"
+    @click="hidePopout"></div>
+    <div id="d2tfiX27YS" v-show="removePopout" class="popout-confirm popout-box" style="overflow: hidden; position: absolute; z-index: 1000; top: 50%; left: 50%; transform: translate3d(-50%, -50%, 0px); visibility: visible; border-radius: 4px; background: white; width: 270px; padding: 15px; opacity: 1;">
+      <div class="confirm-content font-size-14" style="line-height: 20px; padding: 5px 5px 10px;">
+         确定要删除该商品吗？ 
+      </div>
+      <hr style="margin: 9px -15px 10px;">
+      <div class="btn-2-1" style="width: 47.5%;">
+          <p class="js-cancel center font-size-16" style="padding-top: 5px;"
+          @click="hidePopout">取消</p>
+      </div>
+      <div class="btn-2-1" style="width: 47.5%;">
+        <!-- 9.2绑定确认删除事件 -->
+          <p class="js-ok center c-green font-size-16" style="padding-top: 5px;"
+          @click="confirmRemove">确定</p>
+      </div>
+    </div>
+    <div class="footer" style="min-height: 86px;">
+      <div class="copyright">
+        <div class="ft-copyright "
+          style="background-image: url(https://img.yzcdn.cn/upload_files/2016/11/15/147918630760182374.png);">
+          <a class="yz-logo" href="https://www.youzan.com/?from_source=support_logo">有赞提供技术支持</a> </div>
+      </div>
     </div>
   </div>
+
+  
 </body>
 
 </html>
