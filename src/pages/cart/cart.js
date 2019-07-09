@@ -37,7 +37,7 @@ new Vue({
     removeAllChecked: {
       get() {
         return this.cartList.some(shop => {
-          if(shop.editing){
+          if (shop.editing) {
             return shop.removeChecked
           }
         })
@@ -88,37 +88,41 @@ new Vue({
     }
   },
   methods: {
-    hidePopout(){
+    hidePopout() {
+      this.removePopout = false
+    },
+    removeShopTitle(shop,index){
+      if (shop.goodsList.length < 1) {
+        // shop.editing = false
+        this.cartList.forEach((s, i) => {
+            s.editingMsg = '编辑'
+        })
+        this.cartList.splice(index, 1)
+      }
       this.removePopout = false
     },
     confirmRemove() {
+      // 移除单个
       if (this.removeData) {
-        let {
-          shop,
-          shopIndex,
-          good,
-          goodIndex
-        } = this.removeData
+        let {shop,shopIndex,good,goodIndex} = this.removeData
         shop.goodsList.splice(goodIndex, 1)
-        if (shop.goodsList.length < 1) {
-          shop.editing = false
-          this.cartList.forEach((s, i) => {
-            if (i !== shopIndex) {
-              s.editingMsg = '编辑'
-            }
-          })
-          this.cartList.splice(shopIndex, 1)
-        }
-        this.removePopout = false
+        this.removeShopTitle(shop,shopIndex)
       } else {
-        let mList = this.removeLists
-        console.log('mList')
-        console.log(mList)
-        console.log(this.editingShop)
-        console.log(this.editingShop)
-
+        // 移除多个
+        let ids = []
+        // 获取移除的数组的id
+        this.removeLists.forEach((item) => {
+          ids.push(item.id)
+        })
+        this.cartList.forEach((shop, index) => {
+          if (shop.editing) {
+            // 过滤出剩余
+            shop.goodsList = shop.goodsList.filter(item => !ids.includes(item.id))
+            this.removeShopTitle(shop,index)
+          }
+        })
       }
-
+      this.editing = false
     },
     mRemove() {
       console.log(this.removeLists)
