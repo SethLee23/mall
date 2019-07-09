@@ -163,7 +163,7 @@
                 结算
               </button>
               <!-- 编辑状态 -->
-              <button href="javascript:;" disabled="disabled" class="j-delete-goods btn font-size-14 btn-red"
+              <button href="javascript:;" :disabled="!removeLists.length" class="j-delete-goods btn font-size-14 btn-red"
                 v-show="editing">删除
               </button>
             </div>

@@ -27,7 +27,6 @@ new Vue({
            if(good.removeChecked){
                arr.push(good)
            }
-           
            } )
            return arr
       }
