@@ -17,11 +17,40 @@ new Vue({
     // editingMsg: '编辑',
   },
   mounted() {
-    this.getCartList() 
+    this.getCartList()
   },
   computed: {
-    removeAllChecked(){
-      return false
+    removeLists(){
+      if(this.editing){
+        let arr = []
+        this.editingShop.goodsList.forEach(good=>{
+           if(good.removeChecked){
+               arr.push(good)
+           }
+           
+           } )
+           return arr
+      }
+      return []
+      
+    },
+    removeAllChecked:{
+      get(){
+       return this.cartList.some(shop=>{
+          return shop.removeChecked
+        })
+      },
+      set(newVal){
+        this.cartList.forEach(shop=>{
+          if(shop.editing){
+            shop.removeChecked = newVal
+            shop.goodsList.forEach(good=>{
+              good.removeChecked = newVal
+            })
+          }
+        })
+        // return false
+      }
     },
     allChecked: {
       get() {
@@ -58,13 +87,23 @@ new Vue({
   },
   methods: {
     removeShop(shop, shopIndex) {
-      console.log("removeShop")
+      shop.removeChecked = !shop.removeChecked
+      shop.goodsList.forEach(good=>{
+        good.removeChecked = shop.removeChecked
+      })
     },
     removeItem(shop, good, index) {
       console.log("removeItem")
+      good.removeChecked = !good.removeChecked
+      shop.removeChecked = shop.goodsList.every(good => {
+        return good.removeChecked
+      })
+      console.log('shop.removeChecked')
+      console.log(shop.removeChecked)
     },
     removeCheckAll() {
       console.log("removeAll")
+     this.removeAllChecked = !this.removeAllChecked
     },
     reduce(good) {
       if (good.number <= 1) return
@@ -92,6 +131,8 @@ new Vue({
           item.editingMsg = shop.editing ? '' : '编辑'
         }
       })
+      this.editingShop = shop.editing ? shop : null
+      this.editingShopIndex = shop.editing ? index : -1
     },
     checkShop(shop, index) {
       shop.checked = !shop.checked
@@ -115,11 +156,14 @@ new Vue({
           shop.checked = false
           shop.editing = false
           shop.editingMsg = '编辑'
+          shop.removeChecked = false
           shop.goodsList.forEach((list) => {
             list.checked = false
+            list.removeChecked = false
           })
         })
         this.cartList = cartList
+        console.log(this.cartList)
       })
     }
   },
