@@ -4,23 +4,19 @@ import './cart.css'
 import Vue from 'vue'
 import axios from 'axios'
 import url from 'js/api.js'
+
 new Vue({
   el: '#app',
   data: {
     cartList: [],
-    goodList: [],
-    curShop: [],
-    curIndex: -1,
-    checked: false,
     editing: false,
-    total: 0,
     removePopout: false,
-    // editingMsg: '编辑',
   },
   mounted() {
     this.getCartList()
   },
   computed: {
+    // 需要移除的商品列表
     removeLists() {
       if (this.editing) {
         let arr = []
@@ -34,6 +30,7 @@ new Vue({
       return []
 
     },
+    // 移除商品呢时候的全选状态
     removeAllChecked: {
       get() {
         return this.cartList.some(shop => {
@@ -54,6 +51,7 @@ new Vue({
         // return false
       }
     },
+    // 选中商品得全选状态
     allChecked: {
       get() {
         if (this.cartList && this.cartList.length) {
@@ -73,7 +71,6 @@ new Vue({
     },
     totalPrice() {
       if (this.cartList && this.cartList.length) {
-        console.log(1)
         let total = 0
         this.cartList.forEach(shop => {
           shop.goodsList.forEach(good => {
@@ -91,22 +88,35 @@ new Vue({
     hidePopout() {
       this.removePopout = false
     },
-    removeShopTitle(shop,index){
+    removeShopTitle(shop, index) {
       if (shop.goodsList.length < 1) {
         // shop.editing = false
         this.cartList.forEach((s, i) => {
-            s.editingMsg = '编辑'
+          s.editingMsg = '编辑'
         })
         this.cartList.splice(index, 1)
+        this.editing = false
       }
       this.removePopout = false
     },
+    // 确认移除商品
     confirmRemove() {
       // 移除单个
       if (this.removeData) {
-        let {shop,shopIndex,good,goodIndex} = this.removeData
-        shop.goodsList.splice(goodIndex, 1)
-        this.removeShopTitle(shop,shopIndex)
+        let {
+          shop,
+          shopIndex,
+          good,
+          goodIndex
+        } = this.removeData
+        axios.post(url.cartRemove, {
+          id: good.id
+        }).then(res => {
+          if (res.status == 200) {
+            shop.goodsList.splice(goodIndex, 1)
+            this.removeShopTitle(shop, shopIndex)
+          }
+        })
       } else {
         // 移除多个
         let ids = []
@@ -114,18 +124,20 @@ new Vue({
         this.removeLists.forEach((item) => {
           ids.push(item.id)
         })
-        this.cartList.forEach((shop, index) => {
-          if (shop.editing) {
-            // 过滤出剩余
-            shop.goodsList = shop.goodsList.filter(item => !ids.includes(item.id))
-            this.removeShopTitle(shop,index)
-          }
+        axios.post(url.cartMremove, {
+          ids
+        }).then(res => {
+          this.cartList.forEach((shop, index) => {
+            if (shop.editing) {
+              // 过滤出剩余
+              shop.goodsList = shop.goodsList.filter(item => !ids.includes(item.id))
+              this.removeShopTitle(shop, index)
+            }
+          })
         })
       }
-      this.editing = false
     },
     mRemove() {
-      console.log(this.removeLists)
       this.removePopout = true
     },
     deleteGoods(shop, shopIndex, good, goodIndex) {
@@ -136,25 +148,8 @@ new Vue({
         good,
         goodIndex
       }
-      console.log(this.removeData)
-    },
-    removeShop(shop, shopIndex) {
-      shop.removeChecked = !shop.removeChecked
-      shop.goodsList.forEach(good => {
-        good.removeChecked = shop.removeChecked
-      })
-    },
-    removeItem(shop, good, index) {
-      console.log("removeItem")
-      good.removeChecked = !good.removeChecked
-      shop.removeChecked = shop.goodsList.every(good => {
-        return good.removeChecked
-      })
-      console.log('shop.removeChecked')
-      console.log(shop.removeChecked)
     },
     removeCheckAll() {
-      console.log("removeAll")
       this.removeAllChecked = !this.removeAllChecked
     },
     reduce(good) {
@@ -186,16 +181,18 @@ new Vue({
       this.editingShop = shop.editing ? shop : null
       this.editingShopIndex = shop.editing ? index : -1
     },
-    checkShop(shop, index) {
-      shop.checked = !shop.checked
+    checkShop(shop, shopIndex) {
+      let attr = shop.editing ? 'removeChecked' : 'checked'
+      shop[attr] = !shop[attr]
       shop.goodsList.forEach((good) => {
-        good.checked = shop.checked
+        good[attr] = shop[attr]
       })
     },
     checkItem(shop, good, index) {
-      good.checked = !good.checked
-      shop.checked = shop.goodsList.every(good => {
-        return good.checked
+      let attr = shop.editing ? 'removeChecked' : 'checked'
+      good[attr] = !good[attr]
+      shop[attr] = shop.goodsList.every(good => {
+        return good[attr]
       })
     },
     checkAll() {
@@ -217,6 +214,11 @@ new Vue({
         this.cartList = cartList
         console.log(this.cartList)
       })
+    }
+  },
+  filters: {
+    formatPrice(price) {
+      return price.toFixed(2)
     }
   },
   components: {},

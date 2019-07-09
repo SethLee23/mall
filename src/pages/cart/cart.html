@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="keywords" content="有赞,移动电商服务平台">
+  <meta name="keywords" content="移动电商服务平台">
   <meta name="description" content="">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
@@ -34,7 +34,7 @@
 
                   <span class="check" @click="checkShop(shop,shopIndex)" :class="{checked:shop.checked}"
                     v-show="!editing"></span>
-                  <span class="check" @click="removeShop(shop,shopIndex)" :class="{checked:shop.removeChecked}"
+                  <span class="check" @click="checkShop(shop,shopIndex)" :class="{checked:shop.removeChecked}"
                     v-show="editing"></span>
 
                 </div>
@@ -55,16 +55,16 @@
                         <!-- 商品 checked -->
                         <span class="check" @click="checkItem(shop,good,goodIndex)" :class="{checked:good.checked}"
                           v-show="!editing"></span>
-                        <span class="check" @click="removeItem(shop,good,goodIndex)" :class="{checked:good.removeChecked}"
+                        <span class="check" @click="checkItem(shop,good,goodIndex)" :class="{checked:good.removeChecked}"
                           v-show="editing"></span>
 
                       </div>
                       <div class="name-card clearfix">
-                        <a href="https://h5.youzan.com/v2/showcase/goods?alias=2oivacpjh2ex0"
+                        <a :href="'goods.html?id='+good.id"
                           class="thumb js-goods-link">
                           <img class="js-lazy" :src="good.img">
                         </a>
-                        <div class="detail"><a href="https://h5.youzan.com/v2/showcase/goods?alias=2oivacpjh2ex0"
+                        <div class="detail"><a :href="'goods.html?id=' + good.id"
                             class="js-goods-link">
                             <h3 class="title js-ellipsis"><i>{{good.title}}</i></h3>
                           </a>
@@ -88,7 +88,7 @@
                             </div>
                           </div>
                           <div class="price c-orange">
-                            ¥<span>{{good.price}} </span></div>
+                            ¥<span>{{good.price|formatPrice}} </span></div>
                         </div>
                         <div class="error-box"></div>
                       </div>
@@ -111,14 +111,14 @@
                   <div index="0">
                     <div class="check-container hide"><span class="check"></span></div>
                     <div class="name-card clearfix">
-                      <a href="https://h5.youzan.com/v2/showcase/goods?alias=36co1k2m80lmu" class="thumb js-goods-link">
+                      <a href="javascript:;" class="thumb js-goods-link">
                         <img
                           data-src="https://img.yzcdn.cn/upload_files/2017/06/29/FstNOp77JZHQjZIDFd5LlZYE3j_j.jpg!200x200.jpg"
                           class="js-lazy"
                           src="https://img.yzcdn.cn/upload_files/2017/06/29/FstNOp77JZHQjZIDFd5LlZYE3j_j.jpg?imageView2/2/w/200/h/200/q/75/format/webp">
 
                       </a>
-                      <div class="detail"><a href="https://h5.youzan.com/v2/showcase/goods?alias=36co1k2m80lmu"
+                      <div class="detail"><a href="javascript:;"
                           class="js-goods-link">
                           <h3 class="title js-ellipsis"><i>国际安徒生奖大奖书系（文学作品系列第二辑 共8册） 国际安徒生奖获奖书系
                               是经过IBBY各国分会和丛书主编、著名儿童文学理论家方卫平教授层层筛选产生的经典佳作</i></h3>
@@ -197,7 +197,7 @@
       <div class="copyright">
         <div class="ft-copyright "
           style="background-image: url(https://img.yzcdn.cn/upload_files/2016/11/15/147918630760182374.png);">
-          <a class="yz-logo" href="https://www.youzan.com/?from_source=support_logo">有赞提供技术支持</a> </div>
+          <a class="yz-logo" href="javascript:;">提供技术支持</a> </div>
       </div>
     </div>
   </div>
