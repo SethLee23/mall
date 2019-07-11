@@ -2,9 +2,9 @@ import './cart_base.css'
 import './cart_trade.css'
 import './cart.css'
 import Vue from 'vue'
-import axios from 'axios'
-import url from 'js/api.js'
-
+// import axios from 'axios'
+// import url from 'js/api.js'
+import Cart from 'js/cartService'
 new Vue({
   el: '#app',
   data: {
@@ -109,9 +109,8 @@ new Vue({
           good,
           goodIndex
         } = this.removeData
-        axios.post(url.cartRemove, {
-          id: good.id
-        }).then(res => {
+
+       Cart.remove(good.id).then(res => {
           if (res.status == 200) {
             shop.goodsList.splice(goodIndex, 1)
             this.removeShopTitle(shop, shopIndex)
@@ -124,9 +123,7 @@ new Vue({
         this.removeLists.forEach((item) => {
           ids.push(item.id)
         })
-        axios.post(url.cartMremove, {
-          ids
-        }).then(res => {
+        Cart.mRemove(ids).then(res => {
           this.cartList.forEach((shop, index) => {
             if (shop.editing) {
               // 过滤出剩余
@@ -154,15 +151,15 @@ new Vue({
     },
     reduce(good) {
       if (good.number <= 1) return
-      axios.post(url.cartReduce, {
+      Cart.reduce({
         id: good.id,
-        number: good.number - 1
+        number: good.number + 1
       }).then(res => {
         good.number--
       })
     },
     add(good) {
-      axios.post(url.add, {
+      Cart.add({
         id: good.id,
         number: good.number + 1
       }).then(res => {
@@ -199,7 +196,7 @@ new Vue({
       this.allChecked = !this.allChecked
     },
     getCartList() {
-      axios.get(url.cartLists).then((res) => {
+      Cart.list().then((res) => {
         let cartList = res.data.cartList
         cartList.forEach((shop) => {
           shop.checked = false

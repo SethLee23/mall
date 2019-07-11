@@ -14,9 +14,7 @@ import 'vant/lib/index.css';
 import swiper from '../../components/swiper'
 import qs from 'qs'
 import BackToTop from '../../components/backToTop'
-let {
-  id
-} = qs.parse(location.search.substr(1))
+let {id} = qs.parse(location.search.substr(1))
 import {
   PullRefresh
 } from 'vant';
