@@ -48,7 +48,11 @@
                 <ul class="js-list block block-list block-list-cart border-0">
                   <!--  editing -->
                   <li class="block-item block-item-cart" v-for="(good,goodIndex) in shop.goodsList"
-                    :class="{editing:shop.editing}">
+                  :key="good.id"  
+                  :class="{editing:shop.editing}"
+                    :ref="'goods-'+shopIndex+'-'+goodIndex"
+                    @touchstart="start($event,good)"
+                    @touchend="end($event,shopIndex,good,goodIndex)">
                     <div>
                       <div class="check-container">
 
@@ -92,7 +96,7 @@
                         </div>
                         <div class="error-box"></div>
                       </div>
-                      <div class="delete-btn" v-show="shop.editing" @click="deleteGoods(shop,shopIndex,good,goodIndex)"><span>删除</span></div>
+                      <div class="delete-btn" @click="deleteGoods(shop,shopIndex,good,goodIndex)"><span>删除</span></div>
                     </div>
                   </li>
                 </ul>

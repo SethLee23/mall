@@ -2,8 +2,7 @@ import './cart_base.css'
 import './cart_trade.css'
 import './cart.css'
 import Vue from 'vue'
-// import axios from 'axios'
-// import url from 'js/api.js'
+import Velocity from 'velocity-animate'
 import Cart from 'js/cartService'
 new Vue({
   el: '#app',
@@ -28,7 +27,6 @@ new Vue({
         return arr
       }
       return []
-
     },
     // 移除商品呢时候的全选状态
     removeAllChecked: {
@@ -85,6 +83,22 @@ new Vue({
     }
   },
   methods: {
+    start(e, good) {
+      good.startX = e.changedTouches[0].clientX
+    },
+    end(e, shopIndex, good, goodIndex) {
+      let endX = e.changedTouches[0].clientX
+      let left = '0'
+      if (good.startX - endX > 100) {
+        left = '-60px'
+      }
+      if (endX - good.startX > 100) {
+        left = '0px'
+      }
+      Velocity(this.$refs[`goods-${shopIndex}-${goodIndex}`], {
+        left
+      })
+    },
     hidePopout() {
       this.removePopout = false
     },
@@ -110,7 +124,7 @@ new Vue({
           goodIndex
         } = this.removeData
 
-       Cart.remove(good.id).then(res => {
+        Cart.remove(good.id).then(res => {
           if (res.status == 200) {
             shop.goodsList.splice(goodIndex, 1)
             this.removeShopTitle(shop, shopIndex)
