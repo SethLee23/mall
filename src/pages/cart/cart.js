@@ -10,8 +10,10 @@ new Vue({
     cartList: [],
     editing: false,
     removePopout: false,
+    loading: false,
   },
-  mounted() {
+  created() {
+    this.loading = true
     this.getCartList()
   },
   computed: {
@@ -46,7 +48,6 @@ new Vue({
             })
           }
         })
-        // return false
       }
     },
     // 选中商品得全选状态
@@ -88,7 +89,7 @@ new Vue({
     },
     end(e, shopIndex, good, goodIndex) {
       let endX = e.changedTouches[0].clientX
-      let left = '0'
+      let left
       if (good.startX - endX > 100) {
         left = '-60px'
       }
@@ -223,7 +224,7 @@ new Vue({
           })
         })
         this.cartList = cartList
-        console.log(this.cartList)
+        this.loading = false
       })
     }
   },

@@ -25,7 +25,8 @@ export default {
       required: true
     }
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.$nextTick(() => {
       new Swiper(".swiper-container", {

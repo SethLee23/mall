@@ -1,6 +1,6 @@
-import './index.css'
-import 'css/common.css'
 
+import 'css/common.css'
+import './index.css'
 import Vue from 'vue'
 import url from 'js/api.js'
 import Axios from 'axios';
@@ -13,7 +13,7 @@ import footer from '../../components/footer'
 import BackToTop from '../../components/backToTop'
 Vue.use(InfiniteScroll);
 Vue.config.productionTip = false
-
+import avatar from './assets/loading.gif'
 new Vue({
   el: '#app',
   data: {
@@ -22,10 +22,13 @@ new Vue({
     lists: null,
     topLists: null,
     loading: false,
+    loading_1:false,
     allLoaded: false,
     imgAndUrl: null,
+    avatar
   },
-  mounted() {
+  created() {
+    this.loading_1 = true
     // this.createSwiper()
     this.getLists()
     this.getBanner()
@@ -58,6 +61,7 @@ new Vue({
         }
         this.topLists = res.data.topLists
         this.loading = false
+        this.loading_1 = false
         this.pageNum++
       })
     },

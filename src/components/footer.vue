@@ -21,7 +21,7 @@ import qs from "qs";
 let { index } = qs.parse(location.search.substr(1));
 
 export default {
-  name: "footer",
+  name: "s-footer",
   props: {},
   created() {},
   mounted() {
