@@ -14,6 +14,7 @@ import 'vant/lib/index.css';
 import swiper from '../../components/swiper'
 import qs from 'qs'
 import BackToTop from '../../components/backToTop'
+import loading from '../../components/loading'
 let {id} = qs.parse(location.search.substr(1))
 import {
   PullRefresh
@@ -28,7 +29,7 @@ let navConfig = [{
   "content": " 本店成交"
 }]
 new Vue({
-  el: '#goodsContainer',
+  el: '#app',
   data: {
     lists: [],
     imgList: null,
@@ -42,8 +43,10 @@ new Vue({
     showToast: false,
     cart: false,
     type: 0,
+    loading_1: false,
   },
   created() {
+    this.loading_1 = true
     this.getGoodDetails()
     this.getGoodDeal()
   },
@@ -56,8 +59,8 @@ new Vue({
       }).then((res) => {
         this.imgList = res.data.data.img
         this.detailsLists = res.data.data
-        console.log(this.detailsLists)
         this.formatImgList()
+        this.loading_1 = false
       })
     },
     getGoodEvaluation() {
@@ -122,7 +125,8 @@ new Vue({
   },
   components: {
     swiper,
-    'back-to-top': BackToTop
+    'back-to-top': BackToTop,
+    loading,
   },
   filters: {
     formatPrize(prize) {

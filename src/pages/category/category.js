@@ -5,6 +5,7 @@ import axios from 'axios'
 import footer from '../../components/footer'
 // import mixin from 'js/mixin'
 import url from 'js/api.js'
+import loading from '../../components/loading'
 
 // import Vant from 'vant';
 // Vue.use(Vant);
@@ -30,9 +31,11 @@ new Vue({
     allLoaded: false,
     subId: '',
     keyword: '',
-    value: ''
+    value: '',
+    loading_1: false,
   },
   created() {
+    this.loading_1 = true
     this.getTopList()
     this.getRank()
     this.getSublist()
@@ -49,6 +52,7 @@ new Vue({
     getTopList() {
       axios.get(url.topList).then((res) => {
         this.topList = res.data.lists
+        this.loading_1 = false
       })
     },
     getSublist(id) {
@@ -89,6 +93,7 @@ new Vue({
   },
   components: {
     's-footer': footer,
+    loading,
   },
   filters: {
     formatPrize(prize) {

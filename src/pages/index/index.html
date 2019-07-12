@@ -31,14 +31,12 @@
 
 <body class=" " style="min-height: 860px;">
   <div id="app">
-    <div class="loading_wrapper" v-if="loading_1">
-      <img :src="avatar" alt="">
-    </div>
+   <loading v-if="loading_1"></loading>
     <div v-else v-cloak >
       <div class="container with-bottom-nav" style="min-height: 667px;">
         <back-to-top></back-to-top>
         <div class="content" v-if="imgAndUrl">
-          <div>
+            <div class="swiper-wrapper js-swp-wrap" style="height: 180px;" data-height="320" v-if="imgAndUrl">
             <swiper :lists="imgAndUrl"></swiper>
           </div>
           <!-- 点击跳转到店铺 -->

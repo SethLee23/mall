@@ -4,6 +4,7 @@ import './cart.css'
 import Vue from 'vue'
 import Velocity from 'velocity-animate'
 import Cart from 'js/cartService'
+import loading from '../../components/loading'
 new Vue({
   el: '#app',
   data: {
@@ -11,9 +12,11 @@ new Vue({
     editing: false,
     removePopout: false,
     loading: false,
+    loading_1: false,
   },
   created() {
     this.loading = true
+    this.loading_1 = true
     this.getCartList()
   },
   computed: {
@@ -225,6 +228,7 @@ new Vue({
         })
         this.cartList = cartList
         this.loading = false
+        this.loading_1 = false
       })
     }
   },
@@ -233,5 +237,7 @@ new Vue({
       return price.toFixed(2)
     }
   },
-  components: {},
+  components: {
+    loading,
+  },
 })

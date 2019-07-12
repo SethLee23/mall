@@ -13,7 +13,7 @@ import footer from '../../components/footer'
 import BackToTop from '../../components/backToTop'
 Vue.use(InfiniteScroll);
 Vue.config.productionTip = false
-import avatar from './assets/loading.gif'
+import loading from '../../components/loading'
 new Vue({
   el: '#app',
   data: {
@@ -25,18 +25,17 @@ new Vue({
     loading_1:false,
     allLoaded: false,
     imgAndUrl: null,
-    avatar
   },
   created() {
     this.loading_1 = true
-    // this.createSwiper()
     this.getLists()
     this.getBanner()
   },
   components: {
     swiper,
     's-footer':footer,
-    'back-to-top': BackToTop
+    'back-to-top': BackToTop,
+    loading
   },
   methods: {
     getLists() {
@@ -61,9 +60,10 @@ new Vue({
         }
         this.topLists = res.data.topLists
         this.loading = false
-        this.loading_1 = false
         this.pageNum++
+        this.loading_1 = false
       })
+    
     },
     getBanner(){
       Axios.get(url.banner)

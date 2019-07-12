@@ -954,3 +954,9 @@ only screen and (min-device-pixel-ratio: 1.5) {
   background: url("/v2/image/wap/icon_check_circle_checked@2x.png") center center no-repeat;
   background-size: 100% auto
 }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
