@@ -25,10 +25,6 @@ export default {
   props: {},
   created() {},
   mounted() {
-    // this.$nextTick(()=>{
-    //
-    // this.curIndex = index
-    // })
   },
   data() {
     return {
@@ -68,7 +64,6 @@ let navConfig = [
 ];
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .bottom-nav {
   position: fixed;

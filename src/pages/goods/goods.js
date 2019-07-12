@@ -1,4 +1,3 @@
-// import 'css/common.css'
 import './goods_base.css'
 import './goods_common.css'
 import './goods_custom.css'
@@ -6,21 +5,14 @@ import './goods.css'
 import './goods_theme.css'
 import './goods_mars.css'
 import './goods_sku.css'
-
-import Vue from 'vue'
-import axios from 'axios'
-import url from 'js/api.js'
 import 'vant/lib/index.css';
-import swiper from '../../components/swiper'
-import qs from 'qs'
-import BackToTop from '../../components/backToTop'
-import loading from '../../components/loading'
-let {id} = qs.parse(location.search.substr(1))
-import {
-  PullRefresh
-} from 'vant';
+
+import {Vue, axios, url, swiper, qs, BackToTop, loading} from 'js/entrance.js'
+import {PullRefresh} from 'vant';
 
 Vue.use(PullRefresh);
+
+let {id} = qs.parse(location.search.substr(1))
 let navConfig = [{
   "type": "goods",
   "content": "商品详情"

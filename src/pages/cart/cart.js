@@ -1,10 +1,9 @@
 import './cart_base.css'
 import './cart_trade.css'
 import './cart.css'
-import Vue from 'vue'
-import Velocity from 'velocity-animate'
-import Cart from 'js/cartService'
-import loading from '../../components/loading'
+
+import { Velocity, Vue, Cart, loading } from 'js/entrance.js'
+
 new Vue({
   el: '#app',
   data: {

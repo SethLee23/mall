@@ -1,21 +1,10 @@
 import 'css/common.css'
 import './category.css'
-import Vue from 'vue'
-import axios from 'axios'
-import footer from '../../components/footer'
-// import mixin from 'js/mixin'
-import url from 'js/api.js'
-import loading from '../../components/loading'
-
-// import Vant from 'vant';
-// Vue.use(Vant);
 import 'vant/lib/index.css';
+// import mixin from 'js/mixin'
 
-
-import {
-  PullRefresh
-} from 'vant';
-
+import {Vue,axios,Footer,url,loading} from 'js/entrance.js'
+import {PullRefresh} from 'vant';
 Vue.use(PullRefresh);
 new Vue({
   el: '#app',
@@ -92,7 +81,7 @@ new Vue({
 
   },
   components: {
-    's-footer': footer,
+    's-footer': Footer,
     loading,
   },
   filters: {

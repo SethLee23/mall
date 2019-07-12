@@ -1,4 +1,5 @@
-import Address from "js/addressService";
+import {Address} from 'js/entrance.js'
+
 export default {
   data() {
     return {

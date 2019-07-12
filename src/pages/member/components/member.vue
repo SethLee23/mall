@@ -88,7 +88,6 @@
 </template>
 
 <script>
-import loading from '../../../components/loading'
 import Footer from '../../../components/footer';
 export default {
   data(){
@@ -104,7 +103,6 @@ export default {
   },
   components: {
     's-footer': Footer,
-    loading
   }
 }
 </script>

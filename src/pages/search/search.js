@@ -1,31 +1,16 @@
 import 'css/common.css'
 import './search.css'
-import Vue from 'vue'
-import axios from 'axios'
-import {
-  InfiniteScroll
-} from 'mint-ui';
-
-  import footer from '../../components/footer'
-import BackToTop from '../../components/backToTop'
-Vue.use(InfiniteScroll);
-
-// import mixin from 'js/mixin'
-import url from 'js/api.js'
 import 'vant/lib/index.css';
 
-import {
-  PullRefresh
-} from 'vant';
+import { Vue, axios, BackToTop, url, loading, qs} from 'js/entrance.js'
+import {InfiniteScroll} from 'mint-ui';
+import { PullRefresh } from 'vant';
 
+Vue.use(InfiniteScroll);
 Vue.use(PullRefresh);
 Vue.config.productionTip = false
-import qs from 'qs'
-let {
-  keyword,
-  id
-} = qs.parse(location.search.substr(1))
 
+let { keyword, id } = qs.parse(location.search.substr(1))
 new Vue({
   el: '#app1',
   data: {
@@ -35,9 +20,11 @@ new Vue({
     pageNum: 1,
     pageSize: 6,
     allLoaded: false,
-    busy: false
+    busy: false,
+    loading_1: false,
   },
   created() {
+    this.loading_1 = true
     this.keyword = keyword
     this.getLists(undefined)
   },
@@ -80,6 +67,7 @@ new Vue({
         }
         this.busy = false;
         this.isLoading = false
+        this.loading_1 = false
       })
 
     },
@@ -92,6 +80,6 @@ new Vue({
   },
   components: {
     'back-to-top': BackToTop,
-    's-footer': footer
+    loading,
   }
 })

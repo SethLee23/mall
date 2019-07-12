@@ -1,10 +1,11 @@
 import Vue from 'vue'
+import { member, all, address, form } from 'js/entrance.js'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
-import member from '../components/member.vue'
-import all from '../components/all.vue'
-import address from '../components/address.vue'
-import form from '../components/form.vue'
+// import member from '../components/member.vue'
+// import all from '../components/all.vue'
+// import address from '../components/address.vue'
+// import form from '../components/form.vue'
 const routes = [{
     path: '/',
     component: member,

@@ -1,16 +1,16 @@
 <template>
   <div class="loading_wrapper">
-    <img :src="loading" alt />
+    <img :src="loadingGif" alt />
   </div>
 </template>
 
 <script>
-import loading from "../pages/index/assets/loading.gif";
+import loadingGif from "../pages/index/assets/loading.gif";
 export default {
   name: "loading",
   data() {
     return {
-      loading
+      loadingGif
     };
   }
 };

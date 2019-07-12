@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import axios from "axios";
-import url from "js/api";
+import { url, axios } from 'js/entrance.js'
 export default {
   data() {
     return {

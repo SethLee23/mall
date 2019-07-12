@@ -1,19 +1,11 @@
-
 import 'css/common.css'
 import './index.css'
-import Vue from 'vue'
-import url from 'js/api.js'
-import Axios from 'axios';
-import {
-  InfiniteScroll
-} from 'mint-ui';
+import { Vue, url, axios, swiper, Footer, BackToTop, loading } from 'js/entrance.js'
+import { InfiniteScroll } from 'mint-ui';
 
-import swiper from '../../components/swiper'
-import footer from '../../components/footer'
-import BackToTop from '../../components/backToTop'
 Vue.use(InfiniteScroll);
 Vue.config.productionTip = false
-import loading from '../../components/loading'
+
 new Vue({
   el: '#app',
   data: {
@@ -33,7 +25,7 @@ new Vue({
   },
   components: {
     swiper,
-    's-footer':footer,
+    's-footer':Footer,
     'back-to-top': BackToTop,
     loading
   },
@@ -43,7 +35,7 @@ new Vue({
       if (this.allLoaded) return
       // 没加载完，不能动
       this.loading = true
-      Axios.get(url.hotLists, {
+      axios.get(url.hotLists, {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize
@@ -66,7 +58,7 @@ new Vue({
     
     },
     getBanner(){
-      Axios.get(url.banner)
+      axios.get(url.banner)
       .then((res)=>{
         this.imgAndUrl = res.data.lists
       })
