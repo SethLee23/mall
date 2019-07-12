@@ -27,21 +27,28 @@
 
 <script>
 import { url, axios } from 'js/entrance.js'
+
 export default {
-  data() {
-    return {
-      list: null
-    };
-  },
+  // data() {
+  //   return {
+  //     list: null
+  //   };
+  // },
   created() {
-    this.getAddressLists();
+    this.$store.dispatch('getList')
+    // this.getAddressLists();
+  },
+  computed: {
+    list(){
+      return this.$store.state.list
+    },
   },
   methods: {
-    getAddressLists() {
-      axios.get(url.addressLists).then(res => {
-        this.list = res.data.lists;
-      });
-    },
+    // getAddressLists() {
+    //   axios.get(url.addressLists).then(res => {
+    //     this.list = res.data.lists;
+    //   });
+    // },
     editAddress(item, index) {
       this.$router.push({
         name: "form",

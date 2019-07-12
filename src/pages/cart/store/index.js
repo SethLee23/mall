@@ -6,19 +6,15 @@ import { Address } from 'js/entrance.js'
 
 const store = new Vuex.Store({
     state: {
-      list: null,
+      lists: null,
     },
     mutations: {
-      init(state, list){
-          state.list = list
+      init(state, lists){
+          state.lists = lists
       }
     },
     actions: {
-      getList({commit}){
-        Address.list().then(res=>{
-            commit('init',res.data.lists)
-        })
-      }
+        
     },
 })
 

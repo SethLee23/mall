@@ -1,7 +1,6 @@
 <template>
 <div>
-  <loading v-if="loading_1"></loading>
-  <div class="container " style="min-height: 581px;" v-else>
+  <div class="container " style="min-height: 581px;">
     <div class="content"> 
       <div class="user-infos">
         <div class="pull-left avatar">
@@ -88,18 +87,12 @@
 </template>
 
 <script>
+// import { Footer } from 'js/entrance.js'
 import Footer from '../../../components/footer';
 export default {
   data(){
     return {
-      loading_1: false
     }
-  },
-  beforeCreate(){
-    this.loading_1 = true
-  },
-  mounted(){
-    this.loading_1 = false
   },
   components: {
     's-footer': Footer,

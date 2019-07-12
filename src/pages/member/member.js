@@ -1,10 +1,10 @@
+import Vue from 'vue'
 import "./member.css";
 import './member_base.css';
-
-import Vue from 'vue'
 import router from './router/index'
-import loading from '../../components/loading'
+import store from './store/index'
 new Vue({
     el:'#app',
     router,
+    store,
 })
