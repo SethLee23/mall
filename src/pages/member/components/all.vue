@@ -26,29 +26,20 @@
 </template>
 
 <script>
-import { url, axios } from 'js/entrance.js'
+import { url, axios } from "js/entrance.js";
 
 export default {
-  // data() {
-  //   return {
-  //     list: null
-  //   };
-  // },
   created() {
-    this.$store.dispatch('getList')
-    // this.getAddressLists();
+    if (!this.list) {
+      this.$store.dispatch("getList");
+    }
   },
   computed: {
-    list(){
-      return this.$store.state.list
-    },
+    list() {
+      return this.$store.state.list;
+    }
   },
   methods: {
-    // getAddressLists() {
-    //   axios.get(url.addressLists).then(res => {
-    //     this.list = res.data.lists;
-    //   });
-    // },
     editAddress(item, index) {
       this.$router.push({
         name: "form",

@@ -1,7 +1,17 @@
 import 'css/common.css'
 import './index.css'
-import { Vue, url, axios, swiper, Footer, BackToTop, loading } from 'js/entrance.js'
-import { InfiniteScroll } from 'mint-ui';
+import {
+  Vue,
+  url,
+  axios,
+  swiper,
+  Footer,
+  BackToTop,
+  loading
+} from 'js/entrance.js'
+import {
+  InfiniteScroll
+} from 'mint-ui';
 
 Vue.use(InfiniteScroll);
 Vue.config.productionTip = false
@@ -14,7 +24,7 @@ new Vue({
     lists: null,
     topLists: null,
     loading: false,
-    loading_1:false,
+    loading_1: false,
     allLoaded: false,
     imgAndUrl: null,
   },
@@ -25,9 +35,14 @@ new Vue({
   },
   components: {
     swiper,
-    's-footer':Footer,
+    's-footer': Footer,
     'back-to-top': BackToTop,
     loading
+  },
+  filters: {
+    format(price){
+      return price.toFixed(2)
+    }
   },
   methods: {
     getLists() {
@@ -55,16 +70,16 @@ new Vue({
         this.pageNum++
         this.loading_1 = false
       })
-    
+
     },
-    getBanner(){
+    getBanner() {
       axios.get(url.banner)
-      .then((res)=>{
-        this.imgAndUrl = res.data.lists
-      })
+        .then((res) => {
+          this.imgAndUrl = res.data.lists
+        })
     },
-    goodDetail(id){
-     location.href = `goods.html?id=${id}`;
+    goodDetail(id) {
+      location.href = `goods.html?id=${id}`;
     }
   }
 })

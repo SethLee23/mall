@@ -31,7 +31,6 @@
             <select
               class="js-county-selector"
               name="area_code"
-              data-code="440402"
               v-model="districtValue"
             >
               <option value="-1">选择地区</option>
