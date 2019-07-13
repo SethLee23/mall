@@ -42,7 +42,7 @@ export default {
 
 let navConfig = [
   {
-    name: "有赞",
+    name: "首页",
     icon: "icon-home",
     href: "index.html"
   },
