@@ -932,7 +932,7 @@ only screen and (min-device-pixel-ratio:1.5) {
   -webkit-transform-origin: left top;
   transform-origin: left top;
   pointer-events: none;
-  border-right: 1px solid #e5e5e5
+  /* border-right: 1px solid #e5e5e5 */
 }
 
 .shop-item:last-child:before {
@@ -1247,7 +1247,7 @@ only screen and (min-device-pixel-ratio:1.5) {
   -webkit-transform-origin: left top;
   transform-origin: left top;
   pointer-events: none;
-  border-right: 1px solid #e5e5e5
+  /* border-right: 1px solid #e5e5e5 */
 }
 
 .fadeIn {
